@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        #container{
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 20px;
+        }
+        #container>div{
+            display: flex;
+            flex-direction: column;
+            border: 1px solid;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            justify-content: center;
+            align-items: center;
+            width: 300px;
+            height: 400px;
+        }
+        #container>div:hover{
+            width: 330px;
+            height: 435px;
+        }
+        #container>div>div{
+            position: relative;
+            width: 90%;
+            height: 60%;
+        }
+        div>img{
+            width: 100%;
+            height: 100%;
+        }
+        .material-symbols-outlined {
+    position: absolute;
+    top: 5px;
+    cursor: pointer;
+    background: white;
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.badge1 {
+    left: 10px;
+}
+
+.badge2 {
+    left: 50px;
+}
+    </style>
+</head>
+<body>
+    <div id="container">
+
+    </div>
+    
+</body>
+</html>
+<script>
+  let products=[];
+  async function getProducts(){
+    let data= await fetch('https://fakestoreapi.com/products');
+    products= await data.json();
+    localStorage.setItem('products',JSON.stringify(products));
+    products.forEach((product)=>displayProducts(product.title,product.price,product.image));
+  }
+  getProducts();
+  
+
+  function displayProducts(title,price,image){
+    let container= document.getElementById('container');
+    let div=document.createElement('div');
+    let imagewrapper = document.createElement('div');
+    let titleT= document.createElement('h5');
+    let imageT= document.createElement('img');
+    let priceT= document.createElement('h5');
+    titleT.innerText=title;
+    imageT.src=image;
+    priceT.innerText=price;
+    let badge1= document.createElement('span');
+    badge1.classList.add("material-symbols-outlined","badge1");
+    badge1.innerText="shopping_cart";
+   
+    let badge2= document.createElement('span');
+    badge2.classList.add("material-symbols-outlined","badge2");
+    badge2.innerText="add_circle";
+    badge1.addEventListener('click',()=>{
+
+    })
+    badge1.addEventListener('click',()=>{
+
+    })
+    badge1.addEventListener('mouseover',()=>{
+        badge1.style.backgroundColor="#5ebbdd";
+    })
+    badge2.addEventListener('mouseover',()=>{
+        badge2.style.backgroundColor="#5ebbdd";
+    })
+    badge1.addEventListener('mouseout',()=>{
+        badge1.style.backgroundColor="white";
+    })
+    badge2.addEventListener('mouseout',()=>{
+        badge2.style.backgroundColor="white";
+    })
+
+
+
+    div.addEventListener('mouseenter',()=>{
+        imagewrapper.appendChild(badge1);
+        imagewrapper.appendChild(badge2);
+        
+    })
+    div.addEventListener('mouseleave',()=>{
+        badge1.remove();
+        badge2.remove();
+    })
+    imagewrapper.append(imageT);
+
+    div.append(imagewrapper,titleT,priceT);
+    container.appendChild(div);
+  }
+
+
+</script>
